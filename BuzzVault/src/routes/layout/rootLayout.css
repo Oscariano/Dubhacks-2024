@@ -1,0 +1,27 @@
+
+.root-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh; /* 10% of the viewport height */
+  width: 100%; /* Full width */
+  padding: 0 20px; /* Add some horizontal padding */
+  background-color: #f1f1f1; /* Light background color for the header */
+  box-shadow: 0 4px 2px -2px gray; /* Adds a subtle shadow at the bottom */
+}
+
+.header-left {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header-right {
+  display: flex;
+  gap: 20px; /* Adds space between "Contact Us" and "About Us" */
+  font-size: 18px;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
