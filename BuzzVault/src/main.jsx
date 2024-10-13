@@ -12,6 +12,7 @@ import OnBoarding from './routes/OnBoarding'
 import CountDown from './routes/countDown/CountDown'
 import CapsuleCollectionApp from './routes/CapsuleCollection/CapsuleCollectionApp';
 import SignUp from './routes/SignUp/SignUp';
+import DisplayCapsules from '../Login/DisplayCapsules';
 
 
 const router = createBrowserRouter([
@@ -36,8 +37,8 @@ const router = createBrowserRouter([
     path: "/capsulecollection"
   },
   {
-    element: <AFrameScene />,
-    path:"/aframe"
+    element: <DisplayCapsules />,
+    path:"/display-capsules"
   }
 ])
 

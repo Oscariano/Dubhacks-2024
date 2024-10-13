@@ -15,7 +15,8 @@ const DisplayCapsules = () => {
         getDoc(docRef).then(function(docSnap) {
             if (docSnap.exists()) {
                 console.log("Document data:", docSnap.data());
-                docSnap.data()["fileUrls"].map((url) => populatePage(url));
+                docSnap.data()["fileUrls"].map((url) => populateMedia(url));
+                docSnap.data()["notes"].map((note) => populatePage(note));
             } else {
                 console.log("No such document!");
             }
@@ -23,10 +24,17 @@ const DisplayCapsules = () => {
     }, []);
 }
 
-function populatePage(memory) {
+function populateMedia(memory) {
     var image = document.createElement("iframe");
     image.src = memory;
     document.querySelector("#root").appendChild(image);
+}
+
+function populatePage(text) {
+    var paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    paragraph.classList.add("notes");
+    document.querySelector("#root").appendChild(paragraph);
 }
 
 export default DisplayCapsules;

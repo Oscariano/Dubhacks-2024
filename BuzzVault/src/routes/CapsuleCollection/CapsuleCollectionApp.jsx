@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import './CapsuleCollectionApp.css';
 import { userId } from '../../../Login/Login';
-import { load } from 'aframe';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 
