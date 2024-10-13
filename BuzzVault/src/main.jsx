@@ -41,8 +41,8 @@ const router = createBrowserRouter([
     path: "/createcapsule"
   },
   {
-    element: <DisplayCapsules />,
-    path: "/display-capsules"
+    element: <DisplayCapsules props={capsule}/>,
+    path: "/display-capsules/:capsule"
   },
   {
     element: <CountDown />,

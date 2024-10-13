@@ -4,7 +4,6 @@ import './CapsuleCollectionApp.css';
 import { userId } from '../../../Login/Login';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
 const CapsuleCollectionApp = () => {
   const [capsules, setCapsules] = useState([]);
@@ -25,8 +24,7 @@ const CapsuleCollectionApp = () => {
         const capsuleRef = doc(db, 'capsules', capsuleId);
         const capsuleSnap = await getDoc(capsuleRef);
         if (capsuleSnap.exists()) {
-          capsules.push(capsuleSnap.data());
-          console.log(capsuleSnap.data());
+          capsules.push( { capsuleId: capsuleId, capsule: capsuleSnap.data() });
         } else {
           console.error('No such document!');
         }
@@ -70,14 +68,15 @@ const CapsuleCollectionApp = () => {
 
   const handleCapsuleClick = (capsule) => {
     const currentTime = new Date();
-    const capsuleTime = new Date(capsule.timestamp);
-    milliseconds = capsuleTime - currentTime;
+    const capsuleTime = new Date(capsule.capsule.releaseDate.seconds);
+    let milliseconds = capsuleTime.getTime() - currentTime.getTime();
 
     let url;
     if (capsuleTime < currentTime) {
-      navigate(`/displaycapsules?capsule=${capsule.id}`)
+      console.log(capsule);
+      navigate(`/displaycapsules?capsule=${capsule.capsuleId}`)
     } else {
-      <Navigate to="/countdown" state={{ milliseconds: milliseconds }}></Navigate>
+      <Navigate to="/countdown" state={{ millisec: milliseconds }}></Navigate>
     }
   };
 

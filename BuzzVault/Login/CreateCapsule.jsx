@@ -13,7 +13,7 @@ const CreateCapsule = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Create an empty capsule in Firestore when the component mounts
+    // Create an empty capsule in Firestore when the component mount
     const createEmptyCapsule = async () => {
       const db = getFirestore();
       try {
@@ -139,12 +139,18 @@ const CreateCapsule = () => {
 
   const handleDurationChange = (event) => {
     const duration = parseInt(event.target.value, 10);
-    const currentDate = new Date();
-    const releaseDate = new Date(currentDate.setFullYear(currentDate.getFullYear() + duration));
+    let releaseDate;
+    if (duration === undefined || 0) {
+      releaseDate = new Date(currentDate.getTime() + 1 * 60 * 1000);
+    } else {
+      const currentDate = new Date();
+      releaseDate = new Date(currentDate.setFullYear(currentDate.getFullYear() + duration));
+    }
 
     if (capsuleId) {
       const db = getFirestore();
       const capsuleRef = doc(db, 'capsules', capsuleId);
+      console.log(releaseDate);
       updateDoc(capsuleRef, {
         duration: duration,
         releaseDate: releaseDate

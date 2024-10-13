@@ -8,7 +8,7 @@ const DisplayCapsules = ({props}) => {
     const [searchParams, setSearchParams] = useSearchParams();
     searchParams.get("capsule");
     const capsuleId = searchParams.get("capsule");
-  
+
     useEffect(() => {
         const docRef = doc(db, "capsules", capsuleId);
         getDoc(docRef).then(function(docSnap) {

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './countDown.css';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const Countdown = () => {
-  const oneYearInSeconds = 365 * 24 * 60 * 60;
-  const [timeLeft, setTimeLeft] = useState(15);
+const Countdown = ( ) => {
+  const location = useLocation();
+  const { millisec } = location.state || 10000;
+  const timeLeftSeconds = millisec * 0.001
+  const [timeLeft, setTimeLeft] = useState(timeLeftSeconds);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [shake, setShake] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -56,6 +61,9 @@ const Countdown = () => {
         )}
         {isUnlocked && (
           <div className="unlocked-message">
+            {/* {setTimeout(() => {
+              navigate("/")
+            }, 3000)} */}
             <p>Time capsule unlocked!</p>
             <span role="img" aria-label="unlock">
               🔓
