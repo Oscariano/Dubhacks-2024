@@ -7,16 +7,18 @@ import {
 } from "react-router-dom";
 import RootLayout from './routes/layout/RootLayout';
 import OnBoarding from './routes/onBoarding';
+import CountDown from './routes/countDown/CountDown';
 
 const router = createBrowserRouter([
   {
-    element: <RootLayout />,
-    children: [
-      {
-        path: "/",
-        element: <OnBoarding />
-      }
-    ]
+    element: <CountDown />,
+    path:"/"
+    // children: [
+    //   {
+    //     path: "/",
+    //     element: <OnBoarding />
+    //   }
+    // ]
   }
 ])
 
