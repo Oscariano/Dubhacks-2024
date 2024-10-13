@@ -28,6 +28,7 @@ function OnBoarding() {
           </div>
         </div>
       </div>
+      <img src="/path40.png" style={{position: "absolute", right: "10px", bottom: "10px", height: "10rem", width: "10rem"}}/>
       <div className="guest">
         <p>Login as Guest</p>
       </div>
