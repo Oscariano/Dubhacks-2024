@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './CapsuleCollectionApp.css';
 import { userId } from '../../../Login/Login';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
 const CapsuleCollectionApp = () => {
   const [capsules, setCapsules] = useState([]);
@@ -25,8 +23,7 @@ const CapsuleCollectionApp = () => {
         const capsuleRef = doc(db, 'capsules', capsuleId);
         const capsuleSnap = await getDoc(capsuleRef);
         if (capsuleSnap.exists()) {
-          capsules.push(capsuleSnap.data());
-          console.log(capsuleSnap.data());
+          capsules.push({ capsuleId: capsuleId, capsule: capsuleSnap.data() });
         } else {
           console.error('No such document!');
         }
@@ -70,14 +67,13 @@ const CapsuleCollectionApp = () => {
 
   const handleCapsuleClick = (capsule) => {
     const currentTime = new Date();
-    const capsuleTime = new Date(capsule.timestamp);
-    milliseconds = capsuleTime - currentTime;
+    const capsuleTime = new Date(capsule.capsule.releaseDate.seconds * 1000); // Convert seconds to milliseconds
+    let milliseconds = capsuleTime.getTime() - currentTime.getTime();
 
-    let url;
     if (capsuleTime < currentTime) {
-      navigate(`/displaycapsules?capsule=${capsule.id}`)
+      navigate(`/display-capsules?capsule=${capsule.capsuleId}`);
     } else {
-      <Navigate to="/countdown" state={{ milliseconds: milliseconds }}></Navigate>
+      navigate('/countdown', { state: { millisec: milliseconds } });
     }
   };
 
@@ -112,7 +108,6 @@ const CapsuleCollectionApp = () => {
                 src="/capsule.png"
                 alt={capsule.title}
               />
-              {console.log(capsule)}
               <p>{capsule.title ? capsule.title : "Test"}</p>
             </div>
             <style>

@@ -1,39 +1,50 @@
-import { React, useState, useEffect, createElement } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import {db} from "../src/routes/FirebaseApp.js";
+import { db } from "../src/routes/FirebaseApp.js";
 import { doc, getDoc } from "firebase/firestore";
 import "./stylesheets/display-capsules.css";
 
-const DisplayCapsules = ({props}) => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    searchParams.get("capsule");
-    const capsuleId = searchParams.get("capsule");
-  
-    useEffect(() => {
-        const docRef = doc(db, "capsules", capsuleId);
-        getDoc(docRef).then(function(docSnap) {
-            if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
-                docSnap.data()["fileUrls"].map((url) => populateMedia(url));
-                docSnap.data()["notes"].map((note) => populatePage(note));
-            } else {
-                console.log("No such document!");
-            }
-        });
-    }, []);
-}
+const DisplayCapsules = () => {
+  const [searchParams] = useSearchParams();
+  const capsuleId = searchParams.get("capsule");
+  const [fileUrls, setFileUrls] = useState([]);
+  const [notes, setNotes] = useState([]);
 
-function populateMedia(memory) {
-    var image = document.createElement("iframe");
-    image.src = memory;
-    document.querySelector("#root").appendChild(image);
-}
+  useEffect(() => {
+    const fetchCapsuleData = async () => {
+      if (!capsuleId) return;
 
-function populatePage(text) {
-    var paragraph = document.createElement("p");
-    paragraph.textContent = text;
-    paragraph.classList.add("notes");
-    document.querySelector("#root").appendChild(paragraph);
-}
+      const docRef = doc(db, "capsules", capsuleId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log("Document data:", data);
+
+        if (data.fileUrls) {
+          setFileUrls(data.fileUrls);
+        }
+
+        if (data.notes) {
+          setNotes(data.notes);
+        }
+      } else {
+        console.log("No such document!");
+      }
+    };
+
+    fetchCapsuleData();
+  }, [capsuleId]);
+
+  return (
+    <div id="capsule-content">
+      {fileUrls.map((url, index) => (
+        <iframe key={index} src={url} title={`file-${index}`} />
+      ))}
+      {notes.map((note, index) => (
+        <p key={index} className="notes">{note}</p>
+      ))}
+    </div>
+  );
+};
 
 export default DisplayCapsules;
