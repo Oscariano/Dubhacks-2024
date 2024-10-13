@@ -16,7 +16,7 @@ import SignUp from './routes/SignUp/SignUp';
 
 const router = createBrowserRouter([
   {
-    element: <SignUp />,
+    element: <OnBoarding />,
     path: "/"
   },
   {
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
     path: "/capsulecollection"
   },
   {
-    element: <AFrameScene />,
-    path:"/aframe"
+    element: <CreateCapsule />,
+    path: "/createcapsule"
   }
 ])
 

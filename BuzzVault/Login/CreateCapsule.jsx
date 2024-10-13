@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { getFirestore, collection, addDoc, updateDoc, doc, arrayUnion } from "firebase/firestore";
+import { getFirestore, collection, addDoc, updateDoc, doc, arrayUnion, getDocs } from "firebase/firestore"; // Import getDocs here
 import { userId } from '../Login/Login'; 
 import './stylesheets/create-capsule.css';
 import { useNavigate } from 'react-router-dom';
@@ -105,14 +105,29 @@ const CreateCapsule = () => {
         }).catch((error) => {
           console.error('Error adding bee to Firestore: ', error);
         });
+        checkBeeInUserCollection(newBee);
       }
     }
   };
 
-  // TODO: Implement this function
+  // Checks if the bee is already in the user collection (using the email provided in bee, and the email field of the users), and if so, appends this capsuleId to the bee's capsules array
   const checkBeeInUserCollection = async (bee) => {
-    pass;
+    const db = getFirestore();
+    const usersRef = collection(db, 'users');
+    const querySnapshot = await getDocs(usersRef);
+    querySnapshot.forEach((doc) => {
+      if (doc.data().email === bee) {
+        updateDoc(doc.ref, {
+          capsules: arrayUnion(capsuleId)
+        }).then(() => {
+          console.log('Capsule added to bee collection');
+        }).catch((error) => {
+          console.error('Error adding capsule to bee collection: ', error);
+        });
+      }
+    });
   };
+
 
   const handleDurationChange = (event) => {
     const duration = parseInt(event.target.value, 10);

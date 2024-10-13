@@ -69,7 +69,7 @@ const CapsuleCollectionApp = () => {
 
   return (
     <div className='capsules-container'>
-        <Link to="/capsulecreation">
+        <Link to="/createcapsule">
           <div className="capsuleCreation">
             <img src="plus.png" alt="plus icon" />
           </div>
