@@ -1,0 +1,33 @@
+/* CapsuleCollectionApp.css */
+.capsule-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.capsule-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.capsule-item:hover {
+  background-color: #f1f1f1;
+}
+
+.capsule-item-name {
+  font-weight: bold;
+}
+
+.capsule-item-url {
+  color: #555;
+}
+
+.capsule-item-time {
+  color: #999;
+}
