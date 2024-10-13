@@ -8,10 +8,11 @@ import {
 import RootLayout from './routes/layout/RootLayout';
 import OnBoarding from './routes/onBoarding';
 import CapsuleCollectionApp from './routes/CapsuleCollection/CapsuleCollectionApp';
+import ChatApp from './routes/Chat/ChatApp';
 
 const router = createBrowserRouter([
   {
-    element: <CapsuleCollectionApp />,
+    element: <ChatApp />,
     path: "/"
     // children: [
     //   {
