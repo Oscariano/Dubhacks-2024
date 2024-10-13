@@ -4,11 +4,10 @@ import {db} from "../src/routes/FirebaseApp.js";
 import { doc, getDoc } from "firebase/firestore";
 import "./stylesheets/display-capsules.css";
 
-const DisplayCapsules = () => {
+const DisplayCapsules = ({props}) => {
     const [searchParams, setSearchParams] = useSearchParams();
     searchParams.get("capsule");
     const capsuleId = searchParams.get("capsule");
-    const [urls, setUrls] = useState();
   
     useEffect(() => {
         const docRef = doc(db, "capsules", capsuleId);
