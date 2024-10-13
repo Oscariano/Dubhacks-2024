@@ -24,6 +24,7 @@
   display: flex;
   width: 100vw;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 /*# sourceMappingURL=index.css.map */
