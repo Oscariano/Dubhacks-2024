@@ -8,6 +8,7 @@ const CreateCapsule = () => {
   const [capsuleId, setCapsuleId] = useState(null);
   const [bees, setBees] = useState([]);
   const [beeInput, setBeeInput] = useState("");
+  
 
   useEffect(() => {
     // Create an empty capsule in Firestore when the component mounts
