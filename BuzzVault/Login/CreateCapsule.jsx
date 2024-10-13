@@ -192,7 +192,7 @@ const CreateCapsule = () => {
         </div>
         <div className="futureTextInput">
           <p>Send a message to the future!</p>
-          <input type="text" />
+          <textarea type="text" placeholder='type in something'/>
         </div>
       </section>
 
