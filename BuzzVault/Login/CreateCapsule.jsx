@@ -185,7 +185,7 @@ const CreateCapsule = () => {
       <section id="add-file">
         <div className="upload">
           <img src="/plus.png" alt="" />
-          <label class="custom-file-upload" for="fileInput">Upload File</label>
+          <label className="custom-file-upload" htmlFor="fileInput">Upload File</label>
           <input name="fileInput" type="file" id="fileInput" onChange={(event) => handleFileChange2(event)} />
           <p id="fileName"></p>
           <button id="upload-file-btn" onClick={handleUpload}>Upload</button>
