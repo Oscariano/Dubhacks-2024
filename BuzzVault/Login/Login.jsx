@@ -41,14 +41,14 @@ const Login = () => {
   };
 
   return (
-      <div>
+      <div id="false-body">
         <div
           className="glow"
           style={{
             position: 'absolute',
             marginRight: '1460px',
             borderRadius: '20%',
-            marginTop: '0rem',
+            marginTop: '28rem',
             boxShadow: '1px 1px 100px 50px #ffca39',
             height: '10rem',
             width: '36rem',
@@ -59,7 +59,7 @@ const Login = () => {
           style={{
             position: 'absolute',
             marginRight: '1400px',
-            marginTop: '0rem',
+            marginTop: '25rem',
             height: '15rem',
             width: '42rem'
           }}
