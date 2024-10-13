@@ -1,33 +1,45 @@
-/* CapsuleCollectionApp.css */
-.capsule-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  border: 1px solid #ddd;
+body {
+  cursor: url("/beeIcon.png"),
+          url("/bee.png"), pointer;
 }
 
-.capsule-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.capsules-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-image: url("/honeycomb.png");
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
 }
 
-.capsule-item:hover {
-  background-color: #f1f1f1;
+.capsuleCreation {
+  margin-right: 20px;
+  margin-top: 20px;
+  position: absolute;
+  right: 0;
+
+  img {
+    width: 80px;
+    height: 80px;
+
+    &:hover {
+      width: 90px;
+      height: 90px;
+    }
+  }
 }
 
-.capsule-item-name {
-  font-weight: bold;
+.capsule-container {
+  position: absolute;
 }
 
-.capsule-item-url {
-  color: #555;
-}
+.capsule-container img {
+  width: 70px;
+  height: 70px;
 
-.capsule-item-time {
-  color: #999;
+  &:hover {
+    width: 80px;
+    height: 80px;
+  }
 }

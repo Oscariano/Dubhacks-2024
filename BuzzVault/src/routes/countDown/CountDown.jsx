@@ -1,69 +1,70 @@
-"use client"
+import React, { useState, useEffect } from 'react';
+import './countDown.css';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-
-export default function CountDown() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  })
+const Countdown = () => {
+  const oneYearInSeconds = 365 * 24 * 60 * 60;
+  const [timeLeft, setTimeLeft] = useState(15);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [shake, setShake] = useState(false);
 
   useEffect(() => {
-    const targetDate = new Date("2025-01-01T00:00:00").getTime()
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {2
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      setIsUnlocked(true);
+    }
+  }, [timeLeft]);
 
-    const interval = setInterval(() => {
-      const now = new Date().getTime()
-      const difference = targetDate - now
+  const formatTime = (time) => {
+    const days = Math.floor(time / (24 * 3600));
+    const hours = Math.floor((time % (24 * 3600)) / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+    return {
+      days: String(days),
+      time: `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+    };
+  };
 
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+  const { days, time } = formatTime(timeLeft);
 
-        setTimeLeft({ days, hours, minutes, seconds })
-      } else {
-        clearInterval(interval)
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-      }
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
+  const handleShake = () => {
+    if (!isUnlocked) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+    }
+  };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">Time Capsule Countdown</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-4 gap-4 text-center">
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold">{timeLeft.days}</span>
-            <span className="text-sm text-muted-foreground">Days</span>
+    <div className="countdown-container">
+      <div
+        className={`countdown-wrapper ${shake ? 'shake' : ''}`}
+        onClick={handleShake}
+      >
+        <h1 className="countdown-days">Days left: {days}</h1>
+        <h1 className="countdown-display" style={{ color: isUnlocked ? "#32cd32" : "#ff6347" }}>{time}</h1>
+        {!isUnlocked && (
+          <div className="locked-message">
+            <p>Time capsule locked</p>
+            <span role="img" aria-label="lock">
+              🔒
+            </span>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold">{timeLeft.hours}</span>
-            <span className="text-sm text-muted-foreground">Hours</span>
+        )}
+        {isUnlocked && (
+          <div className="unlocked-message">
+            <p>Time capsule unlocked!</p>
+            <span role="img" aria-label="unlock">
+              🔓
+            </span>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold">{timeLeft.minutes}</span>
-            <span className="text-sm text-muted-foreground">Minutes</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold">{timeLeft.seconds}</span>
-            <span className="text-sm text-muted-foreground">Seconds</span>
-          </div>
-        </div>
-        <Separator className="my-4" />
-        <p className="text-center text-sm text-muted-foreground">
-          Until January 1, 2025
-        </p>
-      </CardContent>
-    </Card>
-  )
-}
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Countdown;
