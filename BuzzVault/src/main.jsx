@@ -8,16 +8,17 @@ import {
 import ChatApp from './routes/Chat/ChatApp';
 import Login from '../Login/Login';
 import CreateCapsule from '../Login/CreateCapsule';
+import OnBoarding from './routes/OnBoarding'
+
 
 const router = createBrowserRouter([
   {
     element: <Login />,
-    children: [
-      {
-        path: "/",
-        element: <></>
-      }
-    ]
+    path: "/"
+  },
+  {
+    element: <OnBoarding />,
+    path: "/on-boarding"
   }
 ])
 
