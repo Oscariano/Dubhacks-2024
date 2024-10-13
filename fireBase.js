@@ -1,7 +1,5 @@
-*// Import the Firebase modules that you need in your app.
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
+const { getFirestore, Timestamp, FieldValue, Filter } = require('firebase-admin/firestore');
 
 // TODO: Replace the following with your app's Firebase project configuration.
 // See: https://firebase.google.com/docs/web/learn-more#config-object
