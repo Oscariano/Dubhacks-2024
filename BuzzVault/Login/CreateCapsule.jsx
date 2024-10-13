@@ -3,7 +3,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import { getFirestore, collection, addDoc, updateDoc, doc, arrayUnion } from "firebase/firestore"; 
 import './stylesheets/create-capsule.css';
 
-const CreateCapsule = () => {
+const CreateCapsule = ({ props }) => {
   const [files, setFiles] = useState([]);
   const [capsuleId, setCapsuleId] = useState(null);
   const [bees, setBees] = useState([]);
@@ -31,6 +31,17 @@ const CreateCapsule = () => {
     };
 
     createEmptyCapsule();
+
+    // add capsuleId to the user collection
+    const userRef = doc(db, 'users', 'userId');
+    updateDoc(userRef, {
+      capsules: arrayUnion(capsuleRef.id)
+    }).then(() => {
+      console.log('Capsule added to user collection');
+    }).catch((error) => {
+      console.error('Error adding capsule to user collection: ', error);
+    });
+    
   }, []);
 
   const handleFileChange = (event) => {
@@ -100,20 +111,9 @@ const CreateCapsule = () => {
     }
   };
 
-  const handleTitleChange = (event) => {
-    const title = event.target.value;
-
-    if (capsuleId) {
-      const db = getFirestore();
-      const capsuleRef = doc(db, 'capsules', capsuleId);
-      updateDoc(capsuleRef, {
-        title: title
-      }).then(() => {
-        console.log('Title added to Firestore');
-      }).catch((error) => {
-        console.error('Error adding title to Firestore: ', error);
-      });
-    }
+  // TODO: Implement this function
+  const checkBeeInUserCollection = async (bee) => {
+    pass;
   };
 
   const handleDurationChange = (event) => {
