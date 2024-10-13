@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../src/routes/FirebaseApp.js';
+import { useNavigate } from 'react-router-dom';
 import './vendor/bootstrap/css/bootstrap.min.css';
 import './fonts/font-awesome-4.7.0/css/font-awesome.min.css';
 import './fonts/iconic/css/material-design-iconic-font.min.css';
@@ -11,15 +14,34 @@ import './vendor/daterangepicker/daterangepicker.css';
 import './css/main.css';
 import './stylesheets/index.css';
 
+let userId = null;
+const setUserId = (id) => {
+  userId = id;
+};
+
+export { userId, setUserId };
+
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setUserId(auth.currentUser.uid);
+      navigate('/capsulecollection');
+    } catch (error) {
+      setError(error.message);
+      console.error("Error logging in: ", error);
+    }
+  };
+
   return (
-    <div>
-      <head>
-        <title>My First React App</title>
-        <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-      </head>
-      <body>
-        <script src="bundle.js"></script>
+      <div>
         <div
           className="glow"
           style={{
@@ -50,15 +72,22 @@ const Login = () => {
               style={{ boxShadow: '1px 1px 40px 20px #ffca39' }}
             >
               <div className="wrap-login100">
-                <form className="login100-form validate-form">
+                <form className="login100-form validate-form" onSubmit={handleLogin}>
                   <span className="login100-form-title p-b-60 glow">
                     Welcome!
                   </span>
+                  {error && <p style={{ color: 'red' }}>{error}</p>}
                   <div
                     className="wrap-input100 validate-input"
                     data-validate="Valid email is: a@b.c"
                   >
-                    <input className="input100" type="text" name="email" />
+                    <input
+                      className="input100"
+                      type="text"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                     <span className="focus-input100" data-placeholder="Email"></span>
                   </div>
                   <div
@@ -68,7 +97,13 @@ const Login = () => {
                     <span className="btn-show-pass">
                       <i className="zmdi zmdi-eye"></i>
                     </span>
-                    <input className="input100" type="password" name="pass" />
+                    <input
+                      className="input100"
+                      type="password"
+                      name="pass"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                     <span className="focus-input100" data-placeholder="Password"></span>
                   </div>
                   <div className="container-login100-form-btn">
@@ -92,16 +127,7 @@ const Login = () => {
           <div id="dropDownSelect1"></div>
         </section>
         <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-        <script src="vendor/animsition/js/animsition.min.js"></script>
-        <script src="vendor/bootstrap/js/popper.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script src="vendor/select2/select2.min.js"></script>
-        <script src="vendor/daterangepicker/moment.min.js"></script>
-        <script src="vendor/daterangepicker/daterangepicker.js"></script>
-        <script src="vendor/countdowntime/countdowntime.js"></script>
-        <script src="js/main.js"></script>
-      </body>
-    </div>
+      </div>
   );
 };
 

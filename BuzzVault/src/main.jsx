@@ -12,11 +12,12 @@ import OnBoarding from './routes/OnBoarding'
 import CountDown from './routes/countDown/CountDown'
 import CapsuleCollectionApp from './routes/CapsuleCollection/CapsuleCollectionApp';
 import AFrameScene from './routes/Aframe/AframeScene';
+import SignUp from './routes/SignUp/SignUp';
 
 
 const router = createBrowserRouter([
   {
-    element: <Login />,
+    element: <SignUp />,
     path: "/"
   },
   {
