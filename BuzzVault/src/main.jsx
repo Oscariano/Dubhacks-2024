@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import RootLayout from './routes/layout/RootLayout';
 import OnBoarding from './routes/onBoarding';
-import CapsuleCollectionApp from './routes/CapsuleCollection/CapsuleCollectionApp';
+import CountDown from './routes/countDown/CountDown';
 
 const router = createBrowserRouter([
   {
-    element: <CapsuleCollectionApp />,
-    path: "/"
+    element: <CountDown />,
+    path:"/"
     // children: [
     //   {
     //     path: "/",
