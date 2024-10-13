@@ -4,9 +4,11 @@ import './CapsuleCollectionApp.css';
 import { userId } from '../../../Login/Login';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CapsuleCollectionApp = () => {
   const [capsules, setCapsules] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCapsules();
@@ -66,6 +68,10 @@ const CapsuleCollectionApp = () => {
     `;
   };
 
+  const handleCapsuleClick = (capsule) => {
+    <ChatApp></ChatApp>
+  }
+
   return (
     <div className='capsules-container'>
         <Link to="/createcapsule">
@@ -84,21 +90,24 @@ const CapsuleCollectionApp = () => {
             key={index}
             style={{
               ...getRandomPosition(),
-              animation: `float-${index} ${Math.random() * 40 + 60}s ease-in-out infinite`, // Randomized movement speed
+              animation: `float-${index} ${Math.random() * 40 + 60}s ease-in-out infinite`,
             }}
           >
             <style>
               {`@keyframes float-${index} { ${movementKeyframes} }`}
             </style>
-            <img
-              src="/capsule.png"
-              alt={capsule.name}
-              style={{
-                animation: `rotate-${index} ${Math.random() * 30 + 40}s ease-in-out infinite`, // Randomized rotation speed
-              }}
-            />
+            <div className="capsuleContainer" onClick={(capsule) => handleCapsuleClick(capsule)}
+                 style={{
+                 animation: `rotate-${index} ${Math.random() * 30 + 40}s ease-in-out infinite`,}}>
+              <img
+                src="/capsule.png"
+                alt={capsule.title}
+              />
+              {console.log(capsule)}
+              <p>{capsule.title ? capsule.title : "Test"}</p>
+            </div>
             <style>
-              {`@keyframes rotate-${index} { ${rotationKeyframes} }`}
+              {`@keyframes rotate-${index} { ${rotationKeyframes} }f=`}
             </style>
           </div>
         );

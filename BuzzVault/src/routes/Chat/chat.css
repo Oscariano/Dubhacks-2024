@@ -1,0 +1,35 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chat-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.left {
+  align-self: flex-start;
+  background-color: #f0f0f0;
+}
+
+.right {
+  align-self: flex-end;
+  background-color: #d1ffd6;
+}
+
+.chat-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.chat-text {
+  word-wrap: break-word;
+}

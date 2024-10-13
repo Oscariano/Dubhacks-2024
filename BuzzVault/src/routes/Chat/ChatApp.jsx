@@ -1,79 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../FirebaseApp.js';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
+import { userId } from '../../../Login/Login';
+import './chat.css';
 
-const ChatApp = ({ props }) => {
+const Chat = ({ capsuleId }) => {
   const [chatHistory, setChatHistory] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState('');
+  const db = getFirestore();
 
   useEffect(() => {
-    // Load chat history from Firestore
-    const loadChatHistory = async () => {
-      try {
-        const capsuleDoc = await getDoc(doc(db, 'capsules', props.capsuleId));
-        if (capsuleDoc.exists()) {
-          const chatText = capsuleDoc.data().chatHistory || '';
-          const messages = chatText.split('\n').filter(line => line.trim() !== '');
-          setChatHistory(messages);
-        } else {
-          console.error('No such document!');
+    if (capsuleId) {
+      const chatRef = doc(db, 'capsules', capsuleId);
+
+      const unsubscribe = onSnapshot(chatRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const chatData = snapshot.data().chatHistory || '';
+          console.log(chatData);
+          const chats = chatData.split('\n').map(chat => {
+            const [name, message] = chat.split(':');
+            return { name, message };
+          });
+          setChatHistory(chats);
         }
-      } catch (error) {
-        console.error('Error loading chat history:', error);
-      }
-    };
+      });
 
-    loadChatHistory();
-  }, [props.capsuleId]);
-
-  const handleSendMessage = async () => {
-    if (currentMessage.trim() === '') return;
-
-    const newMessage = `user: ${currentMessage}`; // TODO: Add user name to message
-
-    try {
-      const capsuleRef = doc(db, 'capsules', props.capsuleId);
-      const capsuleDoc = await getDoc(capsuleRef);
-      if (capsuleDoc.exists()) {
-        const chatText = capsuleDoc.data().chatHistory || '';
-        const updatedChatText = chatText + '\n' + newMessage;
-
-        // Update the chat history in Firestore
-        await updateDoc(capsuleRef, { chatHistory: updatedChatText });
-
-        // Update chat history state
-        setChatHistory(prevChatHistory => [...prevChatHistory, newMessage]);
-
-        // Clear the current message input
-        setCurrentMessage('');
-      } else {
-        console.error('No such document!');
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
+      return () => unsubscribe();
     }
-  };
+  }, [capsuleId, db]);
 
   return (
-    <div>
-      <div>
-        <h2>Chat History</h2>
-        <div>
-          {chatHistory.map((msg, index) => (
-            <div key={index}>{msg}</div>
-          ))}
+    <div className="chat-container">
+      {chatHistory.map((chat, index) => (
+        <div key={index} className={`chat-message ${chat.name === userId ? 'right' : 'left'}`}>
+          <div className="chat-name">{chat.name}</div>
+          <div className="chat-text">{chat.message}</div>
         </div>
-      </div>
-      <div>
-        <input
-          type="text"
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
+      ))}
     </div>
   );
 };
 
-export default ChatApp;
+export default Chat;

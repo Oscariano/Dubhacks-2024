@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc, updateDoc, doc, arrayUnion, getDocs } from "firebase/firestore"; // Import getDocs here
-import { userId } from '../Login/Login'; 
+import { userId } from '../Login/Login';
 import './stylesheets/create-capsule.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ const CreateCapsule = () => {
   const [bees, setBees] = useState([]);
   const [beeInput, setBeeInput] = useState("");
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     // Create an empty capsule in Firestore when the component mounts
     const createEmptyCapsule = async () => {
@@ -56,14 +56,14 @@ const CreateCapsule = () => {
         const storageRef = ref(storage, `images/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
-        uploadTask.on('state_changed', 
+        uploadTask.on('state_changed',
           (snapshot) => {
             const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log(percentage);
-          }, 
+          },
           (error) => {
             console.error(error.message);
-          }, 
+          },
           () => {
             getDownloadURL(storageRef).then((downloadURL) => {
               console.log('File available at:', downloadURL);
@@ -110,7 +110,15 @@ const CreateCapsule = () => {
     }
   };
 
-  // Checks if the bee is already in the user collection (using the email provided in bee, and the email field of the users), and if so, appends this capsuleId to the bee's capsules array
+  function handleFileChange2(event) {
+    const fileInput = event.target;
+    const fileNameDisplay = document.getElementById('fileName');
+    if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = `Selected file: ${fileInput.files[0].name}`;
+    } else {
+        fileNameDisplay.textContent = '';
+    }
+  }
   const checkBeeInUserCollection = async (bee) => {
     const db = getFirestore();
     const usersRef = collection(db, 'users');
@@ -177,11 +185,14 @@ const CreateCapsule = () => {
       <section id="add-file">
         <div className="upload">
           <img src="/plus.png" alt="" />
-          <input name="fileInput" type="file" id="fileInput" onChange={handleFileChange} />
+          <label class="custom-file-upload" for="fileInput">Upload File</label>
+          <input name="fileInput" type="file" id="fileInput" onChange={(event) => handleFileChange2(event)} />
+          <p id="fileName"></p>
           <button id="upload-file-btn" onClick={handleUpload}>Upload</button>
         </div>
         <div className="futureTextInput">
-          <input type="text" placeholder="Send a message to the future!"/>
+          <p>Send a message to the future!</p>
+          <input type="text" />
         </div>
       </section>
 
@@ -190,12 +201,12 @@ const CreateCapsule = () => {
           <img src="/bee.png" alt="" />
           <div>
             <label htmlFor="bee">Add bees</label>
-            <input 
-              name="bee" 
-              type="text" 
-              value={beeInput} 
-              onChange={handleBeeChange} 
-              onKeyPress={handleBeeKeyPress} 
+            <input
+              name="bee"
+              type="text"
+              value={beeInput}
+              onChange={handleBeeChange}
+              onKeyPress={handleBeeKeyPress}
               disabled={!capsuleId}
             />
           </div>
