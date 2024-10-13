@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import './CapsuleCollectionApp.css';
 import { userId } from '../../../Login/Login';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const CapsuleCollectionApp = () => {
   const [capsules, setCapsules] = useState([]);
@@ -14,7 +14,7 @@ const CapsuleCollectionApp = () => {
     loadCapsules();
   }, []);
 
-  const loadCapsules = async () => { // This function will load the capsules from the firestore database
+  const loadCapsules = async () => {
     const db = getFirestore();
     const userRef = doc(db, 'users', userId);
     const userSnap = await getDoc(userRef);
@@ -59,7 +59,7 @@ const CapsuleCollectionApp = () => {
   };
 
   const generateRandomRotation = () => {
-    const randomRotation = Math.random() * 60 - 30; // Random rotation between -30deg and 30deg for more pronounced effect
+    const randomRotation = Math.random() * 60 - 30;
 
     return `
       0% { transform: rotate(0deg); }
@@ -69,16 +69,25 @@ const CapsuleCollectionApp = () => {
   };
 
   const handleCapsuleClick = (capsule) => {
-    <ChatApp></ChatApp>
-  }
+    const currentTime = new Date();
+    const capsuleTime = new Date(capsule.timestamp);
+    milliseconds = capsuleTime - currentTime;
+
+    let url;
+    if (capsuleTime < currentTime) {
+      navigate(`/displaycapsules?capsule=${capsule.id}`)
+    } else {
+      <Navigate to="/countdown" state={{ milliseconds: milliseconds }}></Navigate>
+    }
+  };
 
   return (
     <div className='capsules-container'>
-        <Link to="/createcapsule">
-          <div className="capsuleCreation">
-            <img src="plus.png" alt="plus icon" />
-          </div>
-        </Link>
+      <Link to="/createcapsule">
+        <div className="capsuleCreation">
+          <img src="plus.png" alt="plus icon" />
+        </div>
+      </Link>
 
       {capsules.map((capsule, index) => {
         const movementKeyframes = generateRandomMovement();
@@ -96,7 +105,7 @@ const CapsuleCollectionApp = () => {
             <style>
               {`@keyframes float-${index} { ${movementKeyframes} }`}
             </style>
-            <div className="capsuleContainer" onClick={(capsule) => handleCapsuleClick(capsule)}
+            <div className="capsuleContainer" onClick={() => handleCapsuleClick(capsule)}
                  style={{
                  animation: `rotate-${index} ${Math.random() * 30 + 40}s ease-in-out infinite`,}}>
               <img
@@ -107,7 +116,7 @@ const CapsuleCollectionApp = () => {
               <p>{capsule.title ? capsule.title : "Test"}</p>
             </div>
             <style>
-              {`@keyframes rotate-${index} { ${rotationKeyframes} }f=`}
+              {`@keyframes rotate-${index} { ${rotationKeyframes} }`}
             </style>
           </div>
         );

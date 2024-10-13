@@ -13,7 +13,7 @@ import CountDown from './routes/countDown/CountDown'
 import CapsuleCollectionApp from './routes/CapsuleCollection/CapsuleCollectionApp';
 import SignUp from './routes/SignUp/SignUp';
 import DisplayCapsules from '../Login/DisplayCapsules';
-
+import Countdown from './routes/countDown/CountDown';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +43,10 @@ const router = createBrowserRouter([
   {
     element: <DisplayCapsules />,
     path: "/display-capsules"
+  },
+  {
+    element: <CountDown />,
+    path: "/countdown"
   }
 ])
 
