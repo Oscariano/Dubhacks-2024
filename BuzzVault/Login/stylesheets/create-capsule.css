@@ -70,6 +70,8 @@ body {
     font-family: 'Oswald';
     height: 20rem;
     text-align: center;
+    padding: 10px;
+    text-indent: 10px;
   }
 }
 
@@ -110,6 +112,12 @@ img {
 #upload-file-btn {
   color: black;
   background-color: aliceblue;
+}
+
+.futureTextInput > input {
+  background: rgb(228,169,0);
+  background: rgba(228,169,0,1);
+  border-radius: 8px;
 }
 
 /*# sourceMappingURL=create-capsule.css.map */
