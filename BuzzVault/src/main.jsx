@@ -9,6 +9,7 @@ import ChatApp from './routes/Chat/ChatApp';
 import Login from '../Login/Login';
 import CreateCapsule from '../Login/CreateCapsule';
 import OnBoarding from './routes/OnBoarding'
+import DisplayCapsules from '../Login/DisplayCapsules';
 
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     element: <OnBoarding />,
     path: "/on-boarding"
+  },
+  {
+    element: <DisplayCapsules />,
+    path: "/display-capsules"
   }
 ])
 

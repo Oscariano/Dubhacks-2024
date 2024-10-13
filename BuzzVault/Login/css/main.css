@@ -492,7 +492,10 @@ iframe {
 }
 
 .glow {
+  font-size: 3rem;
+  font-family: sans-serif;
+  font-weight: 200;
   color: #fff;
   text-align: center;
-  text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #e6a900, 0 0 10px #ffca39, 0 0 10px #ffc72d, 0 0 15px #fffb0d, 0 0 12px #e6a900;
+  text-shadow: 0 0 4px #fff, 0 0 10px #fff, 0 0 14px #e6a900, 0 0 20px #ffca39, 0 0 20px #ffc72d, 0 0 30px #fffb0d, 0 0 24px #e6a900;
 }
