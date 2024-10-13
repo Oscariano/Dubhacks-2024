@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { getFirestore, collection, addDoc, updateDoc, doc, arrayUnion } from "firebase/firestore"; 
+import { getFirestore, collection, addDoc, updateDoc, doc, arrayUnion } from "firebase/firestore";
+import { userId } from '../Login/Login'; 
 import './stylesheets/create-capsule.css';
+import { useNavigate } from 'react-router-dom';
 
-const CreateCapsule = ({ props }) => {
+const CreateCapsule = () => {
   const [files, setFiles] = useState([]);
   const [capsuleId, setCapsuleId] = useState(null);
   const [bees, setBees] = useState([]);
   const [beeInput, setBeeInput] = useState("");
+  const navigate = useNavigate();
   
-
   useEffect(() => {
     // Create an empty capsule in Firestore when the component mounts
     const createEmptyCapsule = async () => {
@@ -25,23 +27,19 @@ const CreateCapsule = ({ props }) => {
         });
         setCapsuleId(capsuleRef.id);
         console.log("Empty capsule created with ID: ", capsuleRef.id);
+
+        // add capsuleId to the user collection
+        const userRef = doc(db, 'users', userId);
+        await updateDoc(userRef, {
+          capsules: arrayUnion(capsuleRef.id)
+        });
+        console.log('Capsule added to user collection');
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     };
 
     createEmptyCapsule();
-
-    // add capsuleId to the user collection
-    const userRef = doc(db, 'users', 'userId');
-    updateDoc(userRef, {
-      capsules: arrayUnion(capsuleRef.id)
-    }).then(() => {
-      console.log('Capsule added to user collection');
-    }).catch((error) => {
-      console.error('Error adding capsule to user collection: ', error);
-    });
-    
   }, []);
 
   const handleFileChange = (event) => {
@@ -135,12 +133,41 @@ const CreateCapsule = ({ props }) => {
     }
   };
 
+  const handleTitleChange = (event) => {
+    const title = event.target.value;
+
+    if (capsuleId) {
+      const db = getFirestore();
+      const capsuleRef = doc(db, 'capsules', capsuleId);
+      updateDoc(capsuleRef, {
+        title: title
+      }).then(() => {
+        console.log('Title added to Firestore');
+      }).catch((error) => {
+        console.error('Error adding title to Firestore: ', error);
+      });
+    }
+  };
+
+  const handleBackButton = () => {
+    alert("Capsule created successfully!");
+    navigate('/capsulecollection')
+  }
+
   return (
     <div id="whole-container">
+      <div className="done">
+        <button onClick={handleBackButton}>Finished</button>
+      </div>
       <section id="add-file">
-        <img src="/plus.png" alt="" />
-        <input type="file" id="fileInput" onChange={handleFileChange} />
-        <button id="upload-file-btn" onClick={handleUpload}>Upload</button>
+        <div className="upload">
+          <img src="/plus.png" alt="" />
+          <input name="fileInput" type="file" id="fileInput" onChange={handleFileChange} />
+          <button id="upload-file-btn" onClick={handleUpload}>Upload</button>
+        </div>
+        <div className="futureTextInput">
+          <input type="text" placeholder="Send a message to the future!"/>
+        </div>
       </section>
 
       <section id="bottom-section">

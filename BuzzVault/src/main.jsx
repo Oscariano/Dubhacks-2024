@@ -13,11 +13,12 @@ import CountDown from './routes/countDown/CountDown'
 import CapsuleCollectionApp from './routes/CapsuleCollection/CapsuleCollectionApp';
 import AFrameScene from './routes/Aframe/AframeScene';
 import SignUp from './routes/SignUp/SignUp';
+import CapsuleCreation from '../Login/CreateCapsule';
 
 
 const router = createBrowserRouter([
   {
-    element: <SignUp />,
+    element: <Login />,
     path: "/"
   },
   {
@@ -33,8 +34,8 @@ const router = createBrowserRouter([
     path: "/capsulecollection"
   },
   {
-    element: <AFrameScene />,
-    path:"/aframe"
+    element: <CreateCapsule />,
+    path: "/capsulecreation"
   }
 ])
 

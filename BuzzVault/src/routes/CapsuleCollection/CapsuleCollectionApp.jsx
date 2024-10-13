@@ -1,22 +1,40 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import './CapsuleCollectionApp.css';
+import { userId } from '../../../Login/Login';
+import { load } from 'aframe';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useEffect } from 'react';
 
 const CapsuleCollectionApp = () => {
-  const [capsules] = useState([
-    { name: 'capsule1', url: 'www.etc.com', time: 'some time' },
-    { name: 'capsule2', url: 'www.etc2.com', time: 'some time' },
-    { name: 'capsule3', url: 'www.etc3.com', time: 'some time' },
-    { name: 'capsule4', url: 'www.etc4.com', time: 'some time' },
-    { name: 'capsule5', url: 'www.etc5.com', time: 'some time' },
-    { name: 'capsule6', url: 'www.etc6.com', time: 'some time' },
-    { name: 'capsule7', url: 'www.etc7.com', time: 'some time' },
-    { name: 'capsule8', url: 'www.etc8.com', time: 'some time' },
-    { name: 'capsule9', url: 'www.etc9.com', time: 'some time' },
-    { name: 'capsule10', url: 'www.etc10.com', time: 'some time' },
-    { name: 'capsule11', url: 'www.etc11.com', time: 'some time' },
-  ]);
+  const [capsules, setCapsules] = useState([]);
 
+  useEffect(() => {
+    loadCapsules();
+  }, []);
+
+  const loadCapsules = async () => { // This function will load the capsules from the firestore database
+    const db = getFirestore();
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      const userCapsules = userSnap.data().capsules;
+      const capsules = [];
+      for (const capsuleId of userCapsules) {
+        const capsuleRef = doc(db, 'capsules', capsuleId);
+        const capsuleSnap = await getDoc(capsuleRef);
+        if (capsuleSnap.exists()) {
+          capsules.push(capsuleSnap.data());
+          console.log(capsuleSnap.data());
+        } else {
+          console.error('No such document!');
+        }
+      }
+      setCapsules(capsules);
+    } else {
+      console.error('No such document!');
+    }
+  };
 
   const getRandomPosition = () => {
     const x = Math.random() * 80;
@@ -51,7 +69,7 @@ const CapsuleCollectionApp = () => {
 
   return (
     <div className='capsules-container'>
-        <Link to="/dashboard">
+        <Link to="/capsulecreation">
           <div className="capsuleCreation">
             <img src="plus.png" alt="plus icon" />
           </div>
