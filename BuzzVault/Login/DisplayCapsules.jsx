@@ -5,22 +5,17 @@ import { doc, getDoc } from "firebase/firestore";
 import "./stylesheets/display-capsules.css";
 
 const DisplayCapsules = ({props}) => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    searchParams.get("capsule");
-    const capsuleId = searchParams.get("capsule");
 
-    useEffect(() => {
-        const docRef = doc(db, "capsules", capsuleId);
-        getDoc(docRef).then(function(docSnap) {
-            if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
-                docSnap.data()["fileUrls"].map((url) => populateMedia(url));
-                docSnap.data()["notes"].map((note) => populatePage(note));
-            } else {
-                console.log("No such document!");
-            }
-        });
-    }, []);
+    return (
+        <div className="container">
+            <img src="/photo1.jpeg" alt="" />
+            <img src="/photo2.jpeg" alt="" />
+            <img src="/photo3.jpeg" alt="" />
+            <img src="/photo4.jpeg" alt="" />
+            {/* <img src="/photo6.jpeg" alt="" /> */}
+        </div>
+
+    )
 }
 
 function populateMedia(memory) {

@@ -74,7 +74,7 @@ const CapsuleCollectionApp = () => {
     let url;
     if (capsuleTime < currentTime) {
       console.log(capsule);
-      navigate(`/displaycapsules?capsule=${capsule.capsuleId}`)
+      navigate(`/display-capsules?capsule=${capsule.capsuleId}`)
     } else {
       <Navigate to="/countdown" state={{ millisec: milliseconds }}></Navigate>
     }
@@ -109,10 +109,9 @@ const CapsuleCollectionApp = () => {
                  animation: `rotate-${index} ${Math.random() * 30 + 40}s ease-in-out infinite`,}}>
               <img
                 src="/capsule.png"
-                alt={capsule.title}
+                alt={capsule.capsule.title}
               />
-              {console.log(capsule)}
-              <p>{capsule.title ? capsule.title : "Test"}</p>
+              <p>{capsule.capsule.title ? capsule.capsule.title : "Test"}</p>
             </div>
             <style>
               {`@keyframes rotate-${index} { ${rotationKeyframes} }`}
