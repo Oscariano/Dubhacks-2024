@@ -6,11 +6,18 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ChatApp from './routes/Chat/ChatApp';
+import Login from '../Login/Login';
+import CreateCapsule from '../Login/CreateCapsule';
 
 const router = createBrowserRouter([
   {
-    element: <ChatApp />,
-    path: "/"
+    element: <Login />,
+    children: [
+      {
+        path: "/",
+        element: <></>
+      }
+    ]
   }
 ])
 

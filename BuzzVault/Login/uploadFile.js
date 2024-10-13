@@ -1,3 +1,5 @@
+import { getStorage, ref } from "firebase/storage";
+
 "use strict";
 
 (function() {

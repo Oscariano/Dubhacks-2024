@@ -3,7 +3,6 @@ body {
 }
 
 #whole-container {
-  border: 1px white solid;
   height: 100vh;
   width: 100vw;
   display: grid;
@@ -25,7 +24,6 @@ body {
 }
 
 #bottom-section {
-  border: 1px white solid;
   grid-row: 2;
   display: flex;
   justify-content: space-around;
@@ -39,7 +37,8 @@ body {
   align-items: center;
   color: white;
 }
-.input-container section {
+
+.input-container div {
   display: flex;
   flex-direction: column;
 }
@@ -47,6 +46,11 @@ body {
 img {
   height: 10rem;
   width: 10rem;
+}
+
+#upload-file-btn {
+  color: black;
+  background-color: aliceblue;
 }
 
 /*# sourceMappingURL=create-capsule.css.map */
