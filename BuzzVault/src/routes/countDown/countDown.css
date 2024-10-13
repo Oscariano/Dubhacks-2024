@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e6a900;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.countdown-container {
+  text-align: center;
+}
+
+.countdown-wrapper {
+  background-color: #333;
+  padding: 2.5rem;
+  border-radius: 0.625rem;
+  box-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.countdown-display {
+  font-size: 4.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.countdown-days {
+  font-size: 3rem;
+  margin-bottom: 0.625rem;
+  color: #e6a900;
+}
+
+.locked-message,
+.unlocked-message {
+  font-size: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.locked-message span {
+  font-size: 2rem;
+}
+
+.unlocked-message p {
+  font-size: 2rem;
+  color: #32cd32;
+}
+
+/* Shake effect */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-0.625rem); }
+  50% { transform: translateX(0.625rem); }
+  75% { transform: translateX(-0.625rem); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+.countdown-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: ${({ timeLeft }) => (timeLeft > 0 ? 'block' : 'none')};
+  border-radius: 0.625rem;
+  z-index: 0;
+}
+
+.unlocked-message {
+  color: #32cd32;
+}
