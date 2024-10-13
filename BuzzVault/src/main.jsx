@@ -17,16 +17,16 @@ import DisplayCapsules from '../Login/DisplayCapsules';
 
 const router = createBrowserRouter([
   {
-    element: <SignUp />,
+    element: <OnBoarding />,
     path: "/"
   },
   {
-    element: <Login />,
-    path: "/Login"
+    element: <SignUp />,
+    path: "/sign-up"
   },
   {
-    element: <OnBoarding />,
-    path: "/on-boarding"
+    element: <Login />,
+    path: "/login"
   },
   {
     element: <CountDown />,
@@ -39,7 +39,12 @@ const router = createBrowserRouter([
   {
     element: <DisplayCapsules />,
     path: "/display-capsules"
-  }
+  },
+  {
+    element: <CreateCapsule />,
+    path: "/create-capsule"
+  },
+
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

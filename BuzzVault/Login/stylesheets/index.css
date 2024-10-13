@@ -20,4 +20,10 @@
   justify-content: center;
 }
 
+#root {
+  display: flex;
+  width: 100vw;
+  justify-content: space-evenly;
+}
+
 /*# sourceMappingURL=index.css.map */

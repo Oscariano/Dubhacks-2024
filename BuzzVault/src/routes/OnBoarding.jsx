@@ -12,7 +12,7 @@ function OnBoarding() {
               <p className='bee'>Newbee?</p>
             </div>
             <div className="sign-up flip-card-back">
-              <button>Sign up</button>
+            <a href="/">sign up</a>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@ function OnBoarding() {
               <p className='bee'>Oldbee?</p>
             </div>
             <div className="sign-up flip-card-back">
-              <a href="/">Log in</a>
+              <a href="/login">Log in</a>
             </div>
           </div>
         </div>

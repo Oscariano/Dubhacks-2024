@@ -21,16 +21,12 @@ const DisplayCapsules = () => {
             }
         });
     }, []);
-    return(
-        <div id = "populate">
-        </div>
-    );
 }
 
 function populatePage(memory) {
     var image = document.createElement("iframe");
     image.src = memory;
-    document.getElementById("populate").appendChild(image);
+    document.querySelector("#root").appendChild(image);
 }
 
 export default DisplayCapsules;
